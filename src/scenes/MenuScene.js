@@ -1,19 +1,26 @@
-
-import BaseScene from "./BaseScene";
+import BaseScene from './BaseScene';
 
 class MenuScene extends BaseScene {
+    constructor (config) {
+        super('MenuScene', config);
 
-    constructor(config) {
-      super('MenuScene', config);
-
-      this.menu = [
-        {scene: 'PlayScene', text: 'Play'},
-        {scene: 'ScoreScene', text: 'Score'},
-        {scene: null, text: 'Exit'},
-      ]
+        this.menu = [
+            {
+                scene: 'PlayScene',
+                text: 'Play'
+            },
+            {
+                scene: 'ScoreScene',
+                text: 'Score'
+            },
+            {
+                scene: null,
+                text: 'Exit'
+            }
+        ];
     }
 
-    create() {
+    create () {
         super.create();
 
         this.createMenu(this.menu, this.setupMenuEvents.bind(this));
@@ -24,7 +31,7 @@ class MenuScene extends BaseScene {
             .setOrigin(0.5);
 
         this.idleBird();
-        
+
         this.menuBird.play('idle');
 
         this.title = this.add.text(200, 100, 'Jumpy Birb', this.fontOptions)
@@ -38,17 +45,18 @@ class MenuScene extends BaseScene {
         this.menuBirdFlyAnim();
     }
 
-    setupMenuEvents(menuItem) {
+    setupMenuEvents (menuItem) {
         const textGO = menuItem.textGO;
+
         textGO.setInteractive();
 
         textGO.on('pointerover', () => {
-            textGO.setStyle({fill: '#ff0'});
-        })
+            textGO.setStyle({ fill: '#ff0' });
+        });
 
         textGO.on('pointerout', () => {
-            textGO.setStyle({fill: '#fff'});
-        })
+            textGO.setStyle({ fill: '#fff' });
+        });
 
         textGO.on('pointerup', () => {
             menuItem.scene && this.scene.start(menuItem.scene);
@@ -56,34 +64,40 @@ class MenuScene extends BaseScene {
             if (menuItem.text === 'Exit') {
                 this.game.destroy(true);
             }
-        })
+        });
     }
 
-    idleBird() {
+    idleBird () {
         this.idleBirdAnim = this.anims.create({
             key: 'idle',
-            frames: this.anims.generateFrameNumbers('bird', { start: 16, end: 18}),
-            frameRate: 4, 
+            frames: this.anims.generateFrameNumbers('bird', {
+                start: 16,
+                end: 18
+            }),
+            frameRate: 4,
             repeat: -1
-        })
-        
+        });
+
         this.menuBird.play('idle');
     }
 
-    easterEgg() {
+    easterEgg () {
         this.title.on('pointerdown', () => {
             this.scene.start('EasterEggScene');
-        })
+        });
     }
 
-    menuBirdFlyAnim() {
+    menuBirdFlyAnim () {
         this.menuBird.on('pointerdown', () => {
             this.menuFly = this.anims.create({
                 key: 'menuFly',
-                frames: this.anims.generateFrameNumbers('bird', { start: 8, end: 15}),
+                frames: this.anims.generateFrameNumbers('bird', {
+                    start: 8,
+                    end: 15
+                }),
                 frameRate: 8,
                 repeat: 4
-            })
+            });
 
             this.menuBird.play('menuFly');
 
@@ -95,8 +109,8 @@ class MenuScene extends BaseScene {
                     this.scene.restart();
                 },
                 loop: false
-            })
-        })
+            });
+        });
     }
 }
 
